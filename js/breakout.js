@@ -19,6 +19,8 @@ var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 
+
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -61,16 +63,27 @@ function draw() {
  	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawBall();
 	drawPaddle();
-
-	if(y + dy > canvas.height-ballRadius || y + dy < ballRadius){
-		dy = -dy;
-		ballColour = "red";
-	}
-
+	
+ // Bounce the ball off the three walls if it drops game over
+ 
 	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
 		dx = -dx;
 		ballColour = "purple";
 	}
+	
+	if(y + dy < ballRadius) {
+		dy = -dy;
+	} else if (y + dy > canvas.height-ballRadius) {
+		//Check if the ball is hitting the Paddle
+		if(x > paddleX && x < paddleX + paddleWidth) {
+			dy = -dy;
+		}
+		else{
+		alert("Game Over");
+		document.location.reload();
+		}
+	}
+	
 	
 	if(rightPressed && paddleX < canvas.width-paddleWidth) {
 			paddleX += 7;
@@ -84,5 +97,30 @@ function draw() {
 	y += dy;
 
 }
-
 setInterval(draw,10);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
