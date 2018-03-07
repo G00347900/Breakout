@@ -19,44 +19,6 @@ var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 
-
-//Draw the ball
-function drawBall(){
-	ctx.beginPath();
-	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-	ctx.fillStyle = ballColour;
-	ctx.fill();
-	ctx.closePath();
-}
-
-function drawPaddle() {
-	ctx.beginPath();
-	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-	ctx.fillStyle ="#0095DD";
-	ctx.fill();
-	ctx.closePath();
-}
-
-function draw() {
- 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	drawBall();
-	x += dx;
-	y += dy;
-
-
-	if(y + dy > canvas.height-ballRadius || y + dy < ballRadius){
-		dy = -dy;
-		ballColour = "red";
-	}
-
-	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-		dx = -dx;
-		ballColour = "pink";
-	}
-
-}
-
-
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -78,14 +40,49 @@ function keyUpHandler(e) {
 	}
 }
 
-if(rightPressed) {
-	paddleX += 7;
-}
-else if(leftPressed) {
-	paddleX-= 7;
+//Draw the ball
+function drawBall(){
+	ctx.beginPath();
+	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+	ctx.fillStyle = ballColour;
+	ctx.fill();
+	ctx.closePath();
 }
 
+function drawPaddle() {
+	ctx.beginPath();
+	ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+	ctx.fillStyle ="#0095DD";
+	ctx.fill();
+	ctx.closePath();
+}
+
+function draw() {
+ 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	drawBall();
+	drawPaddle();
+
+	if(y + dy > canvas.height-ballRadius || y + dy < ballRadius){
+		dy = -dy;
+		ballColour = "red";
+	}
+
+	if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+		dx = -dx;
+		ballColour = "purple";
+	}
+	
+	if(rightPressed && paddleX < canvas.width-paddleWidth) {
+			paddleX += 7;
+	}
+	
+	else if(leftPressed && paddleX >0) {
+		paddleX -=7;
+	}
+	
+	x += dx;
+	y += dy;
+
+}
 
 setInterval(draw,10);
-
-
