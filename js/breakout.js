@@ -28,6 +28,8 @@ var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft =30;
 
+var score = 0;
+
 //Hold the bricks in two-dimensional array - think of it as rows and colums
 var bricks = [];
 for(c=0; c<brickColumnCount; c++) {
@@ -79,6 +81,7 @@ function draw() {
 	drawPaddle();
 	drawBricks();
 	collisionDetection();
+	drawScore ();
 	
  // Bounce the ball off the three walls if it drops game over
  
@@ -121,10 +124,18 @@ function collisionDetection() {
 				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
 					dy = -dy;
 					b.status = 0;
+					score++;
 				}
 			}
 		}
 	}
+}
+
+function drawScore() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "#0095DD";
+	ctx.fillText("Score: "+score, 8, 20);
+	document.getElementById("gamescore").innerHTML = "Score: " + score;
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
